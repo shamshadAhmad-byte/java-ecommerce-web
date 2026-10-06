@@ -14,7 +14,6 @@ public class JavaEcommerceApplication {
 	public static void main(String[] args) {
 		loadEnv();
 		SpringApplication.run(JavaEcommerceApplication.class, args);
-		System.out.println("Application started successfully.");
 	}
 
 	private static void loadEnv() {
