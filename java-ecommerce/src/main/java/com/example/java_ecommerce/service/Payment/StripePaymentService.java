@@ -24,10 +24,10 @@ public class StripePaymentService implements PaymentService {
     @Value("${stripe.currency:usd}")
     private String currency;
 
-    @Value("${stripe.success.url:http://localhost:5173/order-success?session_id={CHECKOUT_SESSION_ID}}")
+    @Value("${stripe.success.url}")
     private String successUrl;
 
-    @Value("${stripe.cancel.url:http://localhost:5173/order-cancel}")
+    @Value("${stripe.cancel.url}")
     private String cancelUrl;
 
     @Value("${stripe.webhook.secret}")
