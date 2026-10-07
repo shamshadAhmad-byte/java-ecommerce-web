@@ -35,6 +35,10 @@ public class Order {
     private String paymentMethod;
     private String paymentStatus;
     private String stripeSessionId;
+    @jakarta.persistence.Transient
+    private String successUrl;
+    @jakarta.persistence.Transient
+    private String cancelUrl;
     @jakarta.persistence.Column(columnDefinition = "LONGTEXT")
     private String itemsJson;
     private LocalDateTime createdAt;
@@ -162,6 +166,22 @@ public class Order {
 
     public void setStripeSessionId(String stripeSessionId) {
         this.stripeSessionId = stripeSessionId;
+    }
+
+    public String getSuccessUrl() {
+        return successUrl;
+    }
+
+    public void setSuccessUrl(String successUrl) {
+        this.successUrl = successUrl;
+    }
+
+    public String getCancelUrl() {
+        return cancelUrl;
+    }
+
+    public void setCancelUrl(String cancelUrl) {
+        this.cancelUrl = cancelUrl;
     }
 
     public String getItemsJson() {

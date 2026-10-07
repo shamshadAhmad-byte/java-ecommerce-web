@@ -36,6 +36,12 @@ public class OrderResDto {
     public Long getId() {
         return id;
     }
+    public Long get_id() {
+        return id;
+    }
+    public Long getOrderId() {
+        return id;
+    }
     public void setId(Long id) {
         this.id = id;
     }
@@ -111,8 +117,14 @@ public class OrderResDto {
     public Address getShippingAddress() {
         return shippingAddress;
     }
+    public Address getAddress() {
+        return shippingAddress;
+    }
     public void setShippingAddress(Address shippingAddress) {
         this.shippingAddress = shippingAddress;
+    }
+    public boolean isPayment() {
+        return "COMPLETED".equalsIgnoreCase(paymentStatus) || "PAID".equalsIgnoreCase(paymentStatus);
     }
     public LocalDateTime getCreatedAt() {
         return createdAt;

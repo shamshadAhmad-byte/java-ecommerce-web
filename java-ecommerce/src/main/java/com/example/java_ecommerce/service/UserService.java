@@ -29,6 +29,12 @@ public class UserService {
         if(userReqDto.getName() == null || userReqDto.getName().trim().isEmpty()){
             throw new IllegalArgumentException("Name is required");
         }
+        if(userReqDto.getEmail() == null || userReqDto.getEmail().trim().isEmpty()){
+            throw new IllegalArgumentException("Email is required");
+        }
+        if(userReqDto.getPassword() == null || userReqDto.getPassword().trim().length() < 8){
+            throw new IllegalArgumentException("Password must be at least 8 characters long");
+        }
         if(existingUser(userReqDto.getEmail())){
             throw new DuplicateExceptionHandler("User with email "+userReqDto.getEmail()+" already exists");
         }
@@ -38,6 +44,12 @@ public class UserService {
     }
 
     public UserResDto userSignIn(UserReqDto userReqDto){
+        if(userReqDto.getEmail() == null || userReqDto.getEmail().trim().isEmpty()){
+            throw new IllegalArgumentException("Email is required");
+        }
+        if(userReqDto.getPassword() == null || userReqDto.getPassword().isEmpty()){
+            throw new IllegalArgumentException("Password is required");
+        }
         User existingUser=userRepository.findByEmail(userReqDto.getEmail());
         if(existingUser == null){
             throw new ResourceNotFoundException("User with email "+userReqDto.getEmail()+" not found");
@@ -73,6 +85,9 @@ public class UserService {
             existingUser.setEmail(userReqDto.getEmail().trim());
         }
         if(userReqDto.getPassword() != null && !userReqDto.getPassword().trim().isEmpty()){
+            if(userReqDto.getPassword().trim().length() < 8){
+                throw new IllegalArgumentException("New password must be at least 8 characters long");
+            }
             existingUser.setPassword(passwordEncoder.encode(userReqDto.getPassword()));
         }
         existingUser.setUpdatedAt(LocalDateTime.now());

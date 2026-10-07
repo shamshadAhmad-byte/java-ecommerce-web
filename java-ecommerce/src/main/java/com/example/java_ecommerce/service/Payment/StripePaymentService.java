@@ -60,11 +60,18 @@ public class StripePaymentService implements PaymentService {
                                     ).build()
                     ).build();
 
+            String effectiveSuccessUrl = (order.getSuccessUrl() != null && !order.getSuccessUrl().trim().isEmpty())
+                    ? order.getSuccessUrl()
+                    : this.successUrl;
+            String effectiveCancelUrl = (order.getCancelUrl() != null && !order.getCancelUrl().trim().isEmpty())
+                    ? order.getCancelUrl()
+                    : this.cancelUrl;
+
             SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
                     .addLineItem(params)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl(successUrl)
-                    .setCancelUrl(cancelUrl)
+                    .setSuccessUrl(effectiveSuccessUrl)
+                    .setCancelUrl(effectiveCancelUrl)
                     .putMetadata("order_id", String.valueOf(order.getId()));
 
                     if (order.getCustomerEmail() != null && !order.getCustomerEmail().trim().isEmpty()) {

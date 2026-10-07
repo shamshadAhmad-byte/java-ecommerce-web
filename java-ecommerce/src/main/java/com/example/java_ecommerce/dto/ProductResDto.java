@@ -3,6 +3,7 @@ package com.example.java_ecommerce.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.example.java_ecommerce.entity.ProductImage;
 import com.example.java_ecommerce.entity.ProductSize;
 
@@ -17,8 +18,13 @@ public class ProductResDto {
     private LocalDateTime createdAt;
     private List<ProductImage> images;
     private List<ProductSize> sizes;
+    private boolean success=true;
     public ProductResDto() {}
     public Long getId(){
+        return id;
+    }
+    @JsonProperty("_id")
+    public Long get_id(){
         return id;
     }
     public void setId(Long id){
@@ -57,6 +63,10 @@ public class ProductResDto {
     public boolean isBestSeller(){
         return bestSeller;
     }
+    @JsonProperty("bestseller")
+    public boolean getBestseller(){
+        return bestSeller;
+    }
     public void setBestSeller(boolean bestSeller){
         this.bestSeller=bestSeller;
     }
@@ -69,13 +79,27 @@ public class ProductResDto {
     public List<ProductImage> getImages(){
         return images;
     }
+    public List<String> getImage() {
+        if (images == null) return java.util.Collections.emptyList();
+        return images.stream().map(ProductImage::getImageUrl).collect(java.util.stream.Collectors.toList());
+    }
     public void setImages(List<ProductImage> images){
         this.images=images;
     }
     public List<ProductSize> getSizes(){
         return sizes;
     }
+    public List<String> getSize() {
+        if (sizes == null) return java.util.Collections.emptyList();
+        return sizes.stream().map(ProductSize::getSize).collect(java.util.stream.Collectors.toList());
+    }
     public void setSizes(List<ProductSize> sizes){
         this.sizes=sizes;
+    }
+    public boolean getSuccess(){
+        return success;
+    }
+    public void setSuccess(boolean success){
+        this.success=success;
     }
 }

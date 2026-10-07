@@ -11,11 +11,15 @@ import com.example.java_ecommerce.dto.ProductResDto;
 import com.example.java_ecommerce.entity.Product;
 import com.example.java_ecommerce.entity.ProductImage;
 import com.example.java_ecommerce.entity.ProductSize;
+import com.example.java_ecommerce.entity.User;
 import com.example.java_ecommerce.exception.ResourceNotFoundException;
 import com.example.java_ecommerce.repository.ProductImageRepository;
 import com.example.java_ecommerce.repository.ProductRepository;
+import com.example.java_ecommerce.repository.UserRepository;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.java_ecommerce.exception.AccessDeniedException;
 
 @Service 
 @Transactional
@@ -23,14 +27,18 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final FileService fileService;
     private final ProductImageRepository productImageRepository;
-    public ProductService(ProductRepository productRepository, FileService fileService, ProductImageRepository productImageRepository){
+    private final UserRepository userRepository;
+
+    public ProductService(ProductRepository productRepository, FileService fileService, ProductImageRepository productImageRepository, UserRepository userRepository){
         this.productRepository=productRepository;
         this.fileService=fileService;
         this.productImageRepository=productImageRepository;
+        this.userRepository=userRepository;
     }
 
-    public ProductResDto createProduct(MultipartFile[] files, ProductReqDto productReqDto){
+    public ProductResDto createProduct(MultipartFile[] files, ProductReqDto productReqDto,String email){
         Product product=changeProductEntityFromDto(productReqDto);
+        product.setEmail(email);
         product=productRepository.save(product);
         List<ProductSize> sizes=storeProductSizes(productReqDto.getSizes(), product);
         product.setSizes(sizes);
@@ -40,6 +48,7 @@ public class ProductService {
         }
         product=productRepository.save(product);
         ProductResDto productResDto=changeProductDtoFromEntity(product);
+
         return productResDto;
     }
     @Transactional(readOnly = true)
@@ -58,8 +67,39 @@ public class ProductService {
         }
         return productResDtos;
     }
-    public ProductResDto updateProduct(Long id, ProductReqDto productReqDto){
+    
+    @Transactional(readOnly = true)
+    public List<ProductResDto> getAllProductsForAdmin(String email){
+        User user = userRepository.findByEmail(email);
+        boolean isAdmin = user != null && "ADMIN".equalsIgnoreCase(user.getRole());
+        List<Product> products = isAdmin ? productRepository.findAll() : productRepository.findByEmail(email);
+        List<ProductResDto> productResDtos=new ArrayList<>();
+        for(Product product:products){
+            ProductResDto productResDto=changeProductDtoFromEntity(product);
+            productResDtos.add(productResDto);
+        }
+        return productResDtos;
+    }
+
+    @Transactional(readOnly = true)
+    public ProductResDto getProductByIdAndEmail(Long id, String email){
         Product product=productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found"));
+        User user = userRepository.findByEmail(email);
+        boolean isAdmin = user != null && "ADMIN".equalsIgnoreCase(user.getRole());
+        if (!isAdmin && !product.getEmail().equals(email)) {
+            throw new AccessDeniedException("You are not the owner of this product");
+        }
+        ProductResDto productResDto=changeProductDtoFromEntity(product);
+        return productResDto;
+    }
+
+    public ProductResDto updateProduct(Long id, ProductReqDto productReqDto, String email){
+        Product product=productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found"));
+        User user = userRepository.findByEmail(email);
+        boolean isAdmin = user != null && "ADMIN".equalsIgnoreCase(user.getRole());
+        if (!isAdmin && !product.getEmail().equals(email)) {
+            throw new AccessDeniedException("You are not the owner of this product");
+        }
         product.setName(productReqDto.getName());
         product.setDescription(productReqDto.getDescription());
         product.setPrice(productReqDto.getPrice());
@@ -74,8 +114,13 @@ public class ProductService {
         ProductResDto productResDto=changeProductDtoFromEntity(product);
         return productResDto;
     }
-    public void deleteProduct(Long id){
+    public void deleteProduct(Long id, String email){
         Product product=productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found"));
+        User user = userRepository.findByEmail(email);
+        boolean isAdmin = user != null && "ADMIN".equalsIgnoreCase(user.getRole());
+        if (!isAdmin && !product.getEmail().equals(email)) {
+            throw new AccessDeniedException("You are not the owner of this product");
+        }
         List<ProductImage> productImage=productImageRepository.findByProduct(product);
         productImage.stream().forEach((image)->{
             fileService.deleteFile(image.getId());

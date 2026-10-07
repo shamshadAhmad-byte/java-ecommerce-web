@@ -1,5 +1,8 @@
 package com.example.java_ecommerce.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -17,27 +20,33 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @JsonIgnore 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private Order order;
-    private Long productId;
+
+    @ManyToOne
+    @JoinColumn(name="product_id")
+    private Product products;
     
-    @JsonIgnore 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
     private Integer quantity;
     private Double price;
+    private String size;
+    private String status;
 
     public OrderItem() {}
 
-    public OrderItem(Order order, Long productId, User user, Integer quantity, Double price) {
+    public OrderItem(Order order, Product products, User user, Integer quantity, Double price, String size) {
         this.order = order;
-        this.productId = productId;
+        this.products = products;
         this.user = user;
         this.quantity = quantity;
         this.price = price;
+        this.size = size;
     }
 
     public Long getId() {
@@ -51,12 +60,6 @@ public class OrderItem {
     }
     public void setOrder(Order order) {
         this.order = order;
-    }
-    public Long getProductId() {
-        return productId;
-    }
-    public void setProductId(Long productId) {
-        this.productId = productId;
     }
     public User getUser() {
         return user;
@@ -76,6 +79,45 @@ public class OrderItem {
     public void setPrice(Double price) {
         this.price = price;
     }
+    public String getSize() {
+        return size;
+    }
+    public void setSize(String size) {
+        this.size = size;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long get_id() {
+        return id;
+    }
+
+    public Long getItemId() {
+        return id;
+    }
+
+    public Long getProductId() {
+        return products != null ? products.getId() : null;
+    }
+
+    public String getName() {
+        return products != null ? products.getName() : "Product (Unavailable)";
+    }
+
+    public List<String> getImage() {
+        if (products != null && products.getImages() != null && !products.getImages().isEmpty()) {
+            return products.getImages().stream().map(ProductImage::getImageUrl).collect(java.util.stream.Collectors.toList());
+        }
+        return java.util.Collections.emptyList();
+    }
+
+    public String getSellerEmail() {
+        return products != null ? products.getEmail() : null;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -90,6 +132,14 @@ public class OrderItem {
         return getClass().hashCode();
     }
 
+    public Product getProducts() {
+        return products;
+    }
+
+    public void setProducts(Product products) {
+        this.products = products;
+    }
+
     public static class Builder {
         private final OrderItem orderItem;
 
@@ -102,8 +152,8 @@ public class OrderItem {
             return this;
         }
 
-        public Builder productId(Long productId) {
-            orderItem.setProductId(productId);
+        public Builder product(Product product) {
+            orderItem.setProducts(product);
             return this;
         }
 
@@ -119,6 +169,16 @@ public class OrderItem {
 
         public Builder price(Double price) {
             orderItem.setPrice(price);
+            return this;
+        }
+
+        public Builder size(String size) {
+            orderItem.setSize(size);
+            return this;
+        }
+
+        public Builder status(String status) {
+            orderItem.setStatus(status);
             return this;
         }
 

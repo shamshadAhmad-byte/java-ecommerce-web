@@ -43,6 +43,7 @@ public class Product {
     private boolean bestSeller = false;
 
     private LocalDateTime createdAt;
+    private String email;
 
     @OneToMany(
         mappedBy = "product",
@@ -179,5 +180,11 @@ public class Product {
     public void removeImage(ProductImage image) {
         images.remove(image);
         image.setProduct(null);
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
