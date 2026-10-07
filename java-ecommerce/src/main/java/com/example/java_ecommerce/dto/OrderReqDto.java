@@ -23,7 +23,23 @@ public class OrderReqDto {
     @NotNull(message = "Shipping address is required")
     private AddressDto shippingAddress;
 
+    private String successUrl;
+    private String cancelUrl;
+
     public OrderReqDto() {}
+
+    public String getSuccessUrl() {
+        return successUrl;
+    }
+    public void setSuccessUrl(String successUrl) {
+        this.successUrl = successUrl;
+    }
+    public String getCancelUrl() {
+        return cancelUrl;
+    }
+    public void setCancelUrl(String cancelUrl) {
+        this.cancelUrl = cancelUrl;
+    }
 
     public List<OrderItemDto> getOrderItemDtos() {
         return orderItemDtos;

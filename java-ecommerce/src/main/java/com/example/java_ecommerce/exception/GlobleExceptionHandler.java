@@ -19,6 +19,17 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice 
 public class GlobleExceptionHandler {
 
+    @ExceptionHandler (AccessDeniedException.class)
+    public ResponseEntity<ExceptionResDto> accessDeniedExceptionHandler(AccessDeniedException ex, HttpServletRequest request){
+        ExceptionResDto exceptionResDto=new ExceptionResDto();
+        exceptionResDto.setMessage(ex.getMessage());
+        exceptionResDto.setStatusCode(HttpStatus.FORBIDDEN.value());
+        exceptionResDto.setTimestamp(System.currentTimeMillis());
+        exceptionResDto.setPath(request.getRequestURI());
+        exceptionResDto.setError(HttpStatus.FORBIDDEN.getReasonPhrase());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionResDto);
+    }
+
     @ExceptionHandler(FileUploadException.class)
     public ResponseEntity<ExceptionResDto> fileUploadExceptionHandler(FileUploadException ex, HttpServletRequest request){
         ExceptionResDto exceptionResDto=new ExceptionResDto();

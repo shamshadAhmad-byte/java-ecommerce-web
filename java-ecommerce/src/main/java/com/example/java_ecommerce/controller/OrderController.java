@@ -1,6 +1,7 @@
 package com.example.java_ecommerce.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.java_ecommerce.dto.OrderListResDto;
 import com.example.java_ecommerce.dto.OrderReqDto;
 import com.example.java_ecommerce.dto.OrderResDto;
+import com.example.java_ecommerce.dto.OrderStatusUpdateReqDto;
 import com.example.java_ecommerce.service.OrderService;
 
 import jakarta.validation.Valid;
+
 @RestController 
-@RequestMapping("/api/orders")
+@RequestMapping({"/api/orders", "/api/order"})
 public class OrderController{
     private final OrderService orderService;
 
@@ -40,15 +44,54 @@ public class OrderController{
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
-    @GetMapping
+    @GetMapping({"", "/userorder", "/userorders"})
     public ResponseEntity<List<OrderResDto>> getUserOrders(Authentication authentication) {
         String email = authentication != null ? authentication.getName() : null;
         return ResponseEntity.ok(orderService.getUserOrders(email));
     }
 
-    @PostMapping("/verify-stripe")
-    public ResponseEntity<OrderResDto> verifyStripePayment(@RequestParam("sessionId") String sessionId) {
-        return ResponseEntity.ok(orderService.verifyStripePayment(sessionId));
+    @GetMapping({"/listorders", "/seller"})
+    public ResponseEntity<OrderListResDto> listOrders(
+            Authentication authentication,
+            @RequestParam(value = "all", required = false) Boolean all) {
+        String email = authentication != null ? authentication.getName() : null;
+        return ResponseEntity.ok(orderService.listOrders(email, all));
+    }
+
+    @PostMapping({"/updatestatus", "/status"})
+    public ResponseEntity<Map<String, Object>> updateStatus(
+            @RequestBody OrderStatusUpdateReqDto reqDto,
+            Authentication authentication) {
+        String email = authentication != null ? authentication.getName() : null;
+        return ResponseEntity.ok(orderService.updateOrderStatus(reqDto, email));
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<List<OrderResDto>> getAllOrdersForAdmin(Authentication authentication) {
+        String email = authentication != null ? authentication.getName() : null;
+        return ResponseEntity.ok(orderService.getAllOrdersForAdmin(email));
+    }
+
+    @PostMapping({"/verify-stripe", "/verifyorder"})
+    public ResponseEntity<OrderResDto> verifyStripePayment(
+            @RequestParam(value = "sessionId", required = false) String sessionId,
+            @RequestParam(value = "session_id", required = false) String sessionIdSnake,
+            @RequestBody(required = false) Map<String, Object> reqBody) {
+        String finalSession = sessionId != null ? sessionId : sessionIdSnake;
+        if (finalSession == null && reqBody != null) {
+            if (reqBody.containsKey("sessionId")) finalSession = String.valueOf(reqBody.get("sessionId"));
+            else if (reqBody.containsKey("session_id")) finalSession = String.valueOf(reqBody.get("session_id"));
+            else if (reqBody.containsKey("orderId")) {
+                try {
+                    Long orderId = Long.valueOf(String.valueOf(reqBody.get("orderId")));
+                    return ResponseEntity.ok(orderService.getOrderById(orderId));
+                } catch (Exception ignored) {}
+            }
+        }
+        if (finalSession == null || finalSession.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(orderService.verifyStripePayment(finalSession));
     }
 
     @PostMapping("/webhook")

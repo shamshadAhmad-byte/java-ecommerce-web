@@ -59,26 +59,28 @@ public class SecurityConfigure {
                 // Public endpoints — no auth required
                 .requestMatchers("/api/users/signin",
                         "/api/users/signup").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/orders/webhook")
+                .requestMatchers(HttpMethod.POST, "/api/orders/webhook", "/api/orders/verify-stripe", "/api/orders/verifyorder", "/api/order/verify-stripe", "/api/order/verifyorder")
                 .permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/products/**")
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/products/**")
-                .hasRole("ADMIN")
+                .hasAnyRole("ADMIN", "SELLER")
                 .requestMatchers(HttpMethod.PUT, "/api/products/**")
-                .hasRole("ADMIN")
+                .hasAnyRole("ADMIN", "SELLER")
                 .requestMatchers(HttpMethod.DELETE, "/api/products/**")
-                .hasRole("ADMIN")
+                .hasAnyRole("ADMIN", "SELLER")
                 // =========================
                 // ADMIN APIs
                 // =========================
                 .requestMatchers("/api/admin/**")
                 .hasRole("ADMIN")
+                .requestMatchers("/api/seller/**")
+                .hasAnyRole("ADMIN", "SELLER")
                 // =========================
                 // USER APIs
                 // =========================
                 .requestMatchers("/api/users/**")
-                .hasAnyRole("USER", "ADMIN")
+                .hasAnyRole("USER", "ADMIN", "SELLER")
                 // All other endpoints require authentication
                 .anyRequest().authenticated()
                 ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

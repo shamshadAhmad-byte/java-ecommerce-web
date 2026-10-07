@@ -46,8 +46,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userResDto);
     }
     @PutMapping
-    public ResponseEntity<UserResDto> updateUser(Authentication authentication, @Valid @RequestBody UserReqDto userReqDto){
+    public ResponseEntity<UserResDto> updateUser(Authentication authentication, @RequestBody UserReqDto userReqDto){
         UserResDto userResDto = userService.updateUser(authentication.getName(), userReqDto);
+        jwtService.generateToken(userResDto);
         return ResponseEntity.status(HttpStatus.OK).body(userResDto);
     }
 }

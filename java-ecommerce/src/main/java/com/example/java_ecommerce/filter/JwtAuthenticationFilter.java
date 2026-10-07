@@ -30,14 +30,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
+        String token = null;
         String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            token = authorizationHeader.substring(7);
+        } else {
+            String customToken = request.getHeader("token");
+            if (customToken != null && !customToken.isBlank()) {
+                token = customToken.startsWith("Bearer ") ? customToken.substring(7) : customToken;
+            }
+        }
+
+        if (token == null) {
             chain.doFilter(request, response);
             return;
         }
-        String token = authorizationHeader.substring(7);
-        try {
 
+        try {
             if (!jwtService.isTokenValid(token)) {
                 SecurityContextHolder.clearContext();
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -51,8 +60,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (role.startsWith("ROLE_")) {
                 role = role.substring(5);
             }
-            // Convert USER -> ROLE_USER, ADMIN -> ROLE_ADMIN
-            if (!"USER".equals(role) && !"ADMIN".equals(role)) {
+            // Convert USER -> ROLE_USER, ADMIN -> ROLE_ADMIN, SELLER -> ROLE_SELLER
+            if (!"USER".equals(role) && !"ADMIN".equals(role) && !"SELLER".equals(role)) {
                 SecurityContextHolder.clearContext();
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setContentType("application/json");

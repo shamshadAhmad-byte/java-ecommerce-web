@@ -44,10 +44,16 @@ public class Address {
     public String getFirstName() {
         return firstName;
     }
+    public String getFirstname() {
+        return firstName;
+    }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
     public String getLastName() {
+        return lastName;
+    }
+    public String getLastname() {
         return lastName;
     }
     public void setLastName(String lastName) {
@@ -78,6 +84,9 @@ public class Address {
         this.state = state;
     }
     public String getZipCode() {
+        return zipCode;
+    }
+    public String getZipcode() {
         return zipCode;
     }
     public void setZipCode(String zipCode) {
