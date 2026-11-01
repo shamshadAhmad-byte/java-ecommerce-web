@@ -1,9 +1,9 @@
 package com.example.java_ecommerce.dto;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.example.java_ecommerce.entity.ProductImage;
 import com.example.java_ecommerce.entity.ProductSize;
 
@@ -18,88 +18,127 @@ public class ProductResDto {
     private LocalDateTime createdAt;
     private List<ProductImage> images;
     private List<ProductSize> sizes;
-    private boolean success=true;
-    public ProductResDto() {}
-    public Long getId(){
+    private boolean success = true;
+
+    public ProductResDto() {
+    }
+
+    public Long getId() {
         return id;
     }
-    @JsonProperty("_id")
-    public Long get_id(){
-        return id;
-    }
-    public void setId(Long id){
-        this.id=id;
-    }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    public void setName(String name){
-        this.name=name;
-    }
-    public String getDescription(){
+
+    public String getDescription() {
         return description;
     }
-    public void setDescription(String description){
-        this.description=description;
-    }
-    public Integer getPrice(){
+
+    public Integer getPrice() {
         return price;
     }
-    public void setPrice(Integer price){
-        this.price=price;
-    }
-    public String getCategory(){
+
+    public String getCategory() {
         return category;
     }
-    public void setCategory(String category){
-        this.category=category;
-    }
-    public String getSubCategory(){
+
+    public String getSubCategory() {
         return subCategory;
     }
-    public void setSubCategory(String subCategory){
-        this.subCategory=subCategory;
-    }
-    public boolean isBestSeller(){
+
+    public boolean isBestSeller() {
         return bestSeller;
     }
-    @JsonProperty("bestseller")
-    public boolean getBestseller(){
+
+    public boolean getBestseller() {
         return bestSeller;
     }
-    public void setBestSeller(boolean bestSeller){
-        this.bestSeller=bestSeller;
-    }
-    public LocalDateTime getCreatedAt(){
+
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-    public void setCreatedAt(LocalDateTime createdAt){
-        this.createdAt=createdAt;
-    }
-    public List<ProductImage> getImages(){
+
+    public List<ProductImage> getImages() {
+        if (images == null)
+            return Collections.emptyList();
         return images;
     }
-    public List<String> getImage() {
-        if (images == null) return java.util.Collections.emptyList();
-        return images.stream().map(ProductImage::getImageUrl).collect(java.util.stream.Collectors.toList());
-    }
-    public void setImages(List<ProductImage> images){
-        this.images=images;
-    }
-    public List<ProductSize> getSizes(){
+
+    public List<ProductSize> getSizes() {
+        if (sizes == null)
+            return Collections.emptyList();
         return sizes;
     }
-    public List<String> getSize() {
-        if (sizes == null) return java.util.Collections.emptyList();
-        return sizes.stream().map(ProductSize::getSize).collect(java.util.stream.Collectors.toList());
-    }
-    public void setSizes(List<ProductSize> sizes){
-        this.sizes=sizes;
-    }
-    public boolean getSuccess(){
+
+    public boolean getSuccess() {
         return success;
     }
-    public void setSuccess(boolean success){
-        this.success=success;
+
+    public static class Builder {
+        private final ProductResDto productResDto;
+
+        public Builder() {
+            productResDto = new ProductResDto();
+        }
+
+        public Builder withSuccess(boolean success) {
+            productResDto.success = success;
+            return this;
+        }
+
+        public Builder withId(Long id) {
+            productResDto.id = id;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            productResDto.name = name;
+            return this;
+        }
+
+        public Builder withDescription(String description) {
+            productResDto.description = description;
+            return this;
+        }
+
+        public Builder withPrice(Integer price) {
+            productResDto.price = price;
+            return this;
+        }
+
+        public Builder withCategory(String category) {
+            productResDto.category = category;
+            return this;
+        }
+
+        public Builder withSubCategory(String subCategory) {
+            productResDto.subCategory = subCategory;
+            return this;
+        }
+
+        public Builder withBestSeller(boolean bestSeller) {
+            productResDto.bestSeller = bestSeller;
+            return this;
+        }
+
+        public Builder withCreatedAt(LocalDateTime createdAt) {
+            productResDto.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder withImages(List<ProductImage> images) {
+            productResDto.images = images;
+            return this;
+        }
+
+        public Builder withSizes(List<ProductSize> sizes) {
+            productResDto.sizes = sizes;
+            return this;
+        }
+
+        public ProductResDto build() {
+            return productResDto;
+        }
     }
 }

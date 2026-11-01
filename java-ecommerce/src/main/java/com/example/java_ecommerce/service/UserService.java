@@ -115,13 +115,15 @@ public class UserService {
         return user;
     }
     private UserResDto changeUserToResDto(User user){
-        UserResDto userResDto=new UserResDto();
-        userResDto.setId(user.getId());
-        userResDto.setName(user.getName());
-        userResDto.setEmail(user.getEmail());
-        userResDto.setCreatedAt(user.getCreatedAt());
-        userResDto.setUpdatedAt(user.getUpdatedAt());
-        userResDto.setRole(user.getRole());
+        UserResDto userResDto=new UserResDto.Builder()
+                .withSucess(true)
+                .withId(user.getId())
+                .withName(user.getName())
+                .withEmail(user.getEmail())
+                .withCreatedAt(user.getCreatedAt())
+                .withUpdatedAt(user.getUpdatedAt())
+                .withRole(user.getRole())
+                .build();
         return userResDto;
     }
     private boolean existingUser(String email){

@@ -22,6 +22,8 @@ import com.example.java_ecommerce.dto.ProductResDto;
 import com.example.java_ecommerce.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -39,12 +41,11 @@ public class ProductController {
             @RequestPart(value = "product") String productJson,
             @RequestPart(value = "files", required = false) MultipartFile[] files,
             @RequestPart(value = "image", required = false) MultipartFile[] imageFiles,
-            Authentication authentication
-    ) throws Exception {
+            Authentication authentication) throws Exception {
         MultipartFile[] uploadFiles = (files != null && files.length > 0) ? files : imageFiles;
-        ProductReqDto productReqDto
-                = objectMapper.readValue(productJson, ProductReqDto.class);
-        ProductResDto productResDto = productService.createProduct(uploadFiles, productReqDto, authentication.getName());
+        ProductReqDto productReqDto = objectMapper.readValue(productJson, ProductReqDto.class);
+        ProductResDto productResDto = productService.createProduct(uploadFiles, productReqDto,
+                authentication.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(productResDto);
     }
 
@@ -61,9 +62,8 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductResDto> updateProduct(
             @PathVariable Long id,
-            @RequestBody ProductReqDto productReqDto,
-            Authentication authentication
-    ) {
+            @Valid @RequestBody ProductReqDto productReqDto,
+            Authentication authentication) {
         return ResponseEntity.ok(productService.updateProduct(id, productReqDto, authentication.getName()));
     }
 
@@ -81,27 +81,33 @@ public class ProductController {
 
     @GetMapping("/admin/{id}")
     public ResponseEntity<ProductResDto> getProductByIdAndEmail(@PathVariable Long id, Authentication authentication) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductByIdAndEmail(id, authentication.getName()));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productService.getProductByIdAndEmail(id, authentication.getName()));
     }
 
-    private class ProductResponse{
+    private class ProductResponse {
         private boolean success;
         private List<ProductResDto> products;
         private String message;
-        public ProductResponse(boolean success, List<ProductResDto> products){
-            this.success=success;
-            this.products=products;
+
+        public ProductResponse(boolean success, List<ProductResDto> products) {
+            this.success = success;
+            this.products = products;
         }
-        public ProductResponse(boolean success, String message){
-            this.success=success;
-            this.message=message;
+
+        public ProductResponse(boolean success, String message) {
+            this.success = success;
+            this.message = message;
         }
+
         public String getMessage() {
             return message;
         }
+
         public boolean isSuccess() {
             return success;
         }
+
         public List<ProductResDto> getProducts() {
             return products;
         }

@@ -4,7 +4,7 @@ package com.example.java_ecommerce.dto;
 public class OrderItemDto {
 
     private Long productId;
-    private Integer quantity;
+    private int quantity;
     private String size;
 
     public OrderItemDto() {}
@@ -14,10 +14,10 @@ public class OrderItemDto {
     public void setProductId(Long productId) {
         this.productId = productId;
     }
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
     public String getSize() {
