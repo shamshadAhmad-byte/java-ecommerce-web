@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 
 
 @Entity 
@@ -20,17 +19,21 @@ public class Cart {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String size;
-    @Min(0)
+
     private Long quantity;
+    
     private String sessionId;
+    
     @JsonIgnore
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
+    
     @JsonIgnore
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="product_id")
     private Product product;
+    
     public Cart(){}
     public Long getId(){
         return id;

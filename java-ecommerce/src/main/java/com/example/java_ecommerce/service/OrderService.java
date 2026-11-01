@@ -316,12 +316,27 @@ public class OrderService {
     }
 
     private OrderResDto mapOrderToResDto(Order order) {
-        OrderResDto dto = new OrderResDto();
-        dto.setSuccess(true);
-        dto.setId(order.getId());
-        dto.setCustomerName(order.getCustomerName());
-        dto.setCustomerEmail(order.getCustomerEmail());
-        dto.setCustomerPhone(order.getCustomerPhone());
+        OrderResDto dto = new OrderResDto.Builder()
+                .withId(order.getId())
+                .withCustomerName(order.getCustomerName())
+                .withCustomerEmail(order.getCustomerEmail())
+                .withCustomerPhone(order.getCustomerPhone())
+                .withTotalAmount(order.getTotalAmount())
+                .withStatus(order.getStatus())
+                .withPaymentMethod(order.getPaymentMethod())
+                .withPaymentStatus(order.getPaymentStatus())
+                .withStripeSessionId(order.getStripeSessionId())
+                .withShippingAddress(order.getShippingAddress())
+                .withCreatedAt(order.getCreatedAt())
+                .withTotalAmount(order.getTotalAmount())
+                .withStatus(order.getStatus())
+                .withPaymentMethod(order.getPaymentMethod())
+                .withPaymentStatus(order.getPaymentStatus())
+                .withStripeSessionId(order.getStripeSessionId())
+                .withShippingAddress(order.getShippingAddress())
+                .withCreatedAt(order.getCreatedAt())
+                .build();
+
         if (order.getItems() != null) {
             dto.setProductId(order.getItems().stream()
                     .map(item -> (item != null && item.getProducts() != null) ? item.getProducts().getId() : null)
@@ -329,13 +344,6 @@ public class OrderService {
                     .collect(Collectors.toList()));
             dto.setItems(order.getItems());
         }
-        dto.setTotalAmount(order.getTotalAmount());
-        dto.setStatus(order.getStatus());
-        dto.setPaymentMethod(order.getPaymentMethod());
-        dto.setPaymentStatus(order.getPaymentStatus());
-        dto.setStripeSessionId(order.getStripeSessionId());
-        dto.setShippingAddress(order.getShippingAddress());
-        dto.setCreatedAt(order.getCreatedAt());
         return dto;
     }
 
@@ -368,7 +376,7 @@ public class OrderService {
             }
             Product product = productRepository.findById(itemDto.getProductId())
                     .orElseThrow(() -> new ResourceNotFoundException("Product with id " + itemDto.getProductId() + " not found"));
-            int qty = itemDto.getQuantity() != null && itemDto.getQuantity() > 0 ? itemDto.getQuantity() : 1;
+            int qty = itemDto.getQuantity() > 0 ? itemDto.getQuantity() : 1;
             calculatedTotal += product.getPrice() * qty;
 
             OrderItem item = new OrderItem();
@@ -381,7 +389,11 @@ public class OrderService {
             order.addItem(item);
         }
 
-        order.setTotalAmount(orderReqDto.getTotalAmount() != null ? orderReqDto.getTotalAmount() : calculatedTotal);
+        if (orderReqDto.getTotalAmount() != null) {
+            order.setTotalAmount(orderReqDto.getTotalAmount());
+        } else {
+            order.setTotalAmount(calculatedTotal);
+        }
         order.setStatus("PENDING");
         return orderRepository.save(order);
     }

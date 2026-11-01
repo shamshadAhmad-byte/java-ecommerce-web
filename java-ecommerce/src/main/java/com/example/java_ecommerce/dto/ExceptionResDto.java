@@ -11,37 +11,60 @@ public class ExceptionResDto {
     public boolean isSuccess(){
         return success;
     }
-    public void setSuccess(boolean success){
-        this.success=success;
-    }
     public String getMessage(){
         return message;
-    }
-    public void setMessage(String message){
-        this.message=message;
     }
     public Integer getStatusCode(){
         return StatusCode;
     }
-    public void setStatusCode(Integer StatusCode){
-        this.StatusCode=StatusCode;
-    }
     public Long getTimestamp(){
         return timestamp;
-    }
-    public void setTimestamp(Long timestamp){
-        this.timestamp=timestamp;
     }
     public String getPath(){
         return path;
     }
-    public void setPath(String path){
-        this.path=path;
-    }
     public String getError(){
         return error;
     }
-    public void setError(String error){
-        this.error=error;
+    public static class Builder {
+        private final ExceptionResDto exceptionResDto;
+
+        public Builder() {
+            this.exceptionResDto = new ExceptionResDto();
+        }
+
+        public Builder withSuccess(boolean success) {
+            exceptionResDto.success = success;
+            return this;
+        }
+
+        public Builder withMessage(String message) {
+            exceptionResDto.message = message;
+            return this;
+        }
+
+        public Builder withStatusCode(Integer statusCode) {
+            exceptionResDto.StatusCode = statusCode;
+            return this;
+        }
+
+        public Builder withTimestamp(Long timestamp) {
+            exceptionResDto.timestamp = timestamp;
+            return this;
+        }
+
+        public Builder withPath(String path) {
+            exceptionResDto.path = path;
+            return this;
+        }
+
+        public Builder withError(String error) {
+            exceptionResDto.error = error;
+            return this;
+        }
+
+        public ExceptionResDto build() {
+            return exceptionResDto;
+        }
     }
 }
