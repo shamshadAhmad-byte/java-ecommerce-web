@@ -13,17 +13,16 @@ import com.example.java_ecommerce.exception.PasswordNotMatchesException;
 import com.example.java_ecommerce.exception.ResourceNotFoundException;
 import com.example.java_ecommerce.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service 
 @Transactional
+@RequiredArgsConstructor 
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
-        this.userRepository=userRepository;
-        this.passwordEncoder=passwordEncoder;
-    }
     
     public UserResDto userSignUp(UserReqDto userReqDto){
         if(userReqDto.getName() == null || userReqDto.getName().trim().isEmpty()){

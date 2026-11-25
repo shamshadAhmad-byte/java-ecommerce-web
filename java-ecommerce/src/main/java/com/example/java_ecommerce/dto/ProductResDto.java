@@ -7,6 +7,11 @@ import java.util.List;
 import com.example.java_ecommerce.entity.ProductImage;
 import com.example.java_ecommerce.entity.ProductSize;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter 
+@Setter 
 public class ProductResDto {
     private Long id;
     private String name;
@@ -22,43 +27,6 @@ public class ProductResDto {
 
     public ProductResDto() {
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public String getSubCategory() {
-        return subCategory;
-    }
-
-    public boolean isBestSeller() {
-        return bestSeller;
-    }
-
-    public boolean getBestseller() {
-        return bestSeller;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
     public List<ProductImage> getImages() {
         if (images == null)
             return Collections.emptyList();
@@ -69,10 +37,6 @@ public class ProductResDto {
         if (sizes == null)
             return Collections.emptyList();
         return sizes;
-    }
-
-    public boolean getSuccess() {
-        return success;
     }
 
     public static class Builder {

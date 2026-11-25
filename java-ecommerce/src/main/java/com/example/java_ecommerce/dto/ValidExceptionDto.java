@@ -2,6 +2,9 @@ package com.example.java_ecommerce.dto;
 
 import java.util.Map;
 
+import lombok.Getter;
+
+@Getter 
 public class ValidExceptionDto {
     private boolean success = false;
     private String message;
@@ -12,21 +15,6 @@ public class ValidExceptionDto {
     public ValidExceptionDto(){};
     public boolean isSuccess(){
         return success;
-    }
-    public String getMessage(){
-        return message;
-    }
-    public Integer getStatusCode(){
-        return StatusCode;
-    }
-    public Long getTimestamp(){
-        return timestamp;
-    }
-    public String getPath(){
-        return path;
-    }
-    public Map<String, String> getError(){
-        return error;
     }
     public static class Builder{
         private final ValidExceptionDto validExceptionDto;

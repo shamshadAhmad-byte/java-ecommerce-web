@@ -15,9 +15,13 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "products")
+@Getter 
+@Setter 
 public class Product {
 
     @Id
@@ -62,75 +66,12 @@ public class Product {
     public Product() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getSubCategory() {
-        return subCategory;
-    }
-
-    public void setSubCategory(String subCategory) {
-        this.subCategory = subCategory;
-    }
-
-    public boolean isBestSeller() {
-        return bestSeller;
-    }
-
-    public void setBestSeller(boolean bestSeller) {
-        this.bestSeller = bestSeller;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     @PrePersist
     protected void onCreate() {
         if (this.createdAt == null) {
             this.createdAt = LocalDateTime.now();
         }
-    }
-
-    public List<ProductImage> getImages() {
-        return images;
     }
 
     // IMPORTANT: Don't replace the Hibernate-managed collection
@@ -143,10 +84,6 @@ public class Product {
                 this.images.add(image);
             }
         }
-    }
-
-    public List<ProductSize> getSizes() {
-        return sizes;
     }
 
     // IMPORTANT: Don't replace the Hibernate-managed collection
@@ -180,11 +117,5 @@ public class Product {
     public void removeImage(ProductImage image) {
         images.remove(image);
         image.setProduct(null);
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

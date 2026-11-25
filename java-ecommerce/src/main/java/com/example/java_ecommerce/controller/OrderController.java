@@ -22,15 +22,14 @@ import com.example.java_ecommerce.dto.OrderStatusUpdateReqDto;
 import com.example.java_ecommerce.service.OrderService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController 
 @RequestMapping({"/api/orders", "/api/order"})
+@RequiredArgsConstructor 
 public class OrderController{
     private final OrderService orderService;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     @PostMapping
     public ResponseEntity<OrderResDto> createOrder(@Valid @RequestBody OrderReqDto orderReqDto, Authentication authentication) {

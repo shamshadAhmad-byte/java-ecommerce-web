@@ -17,25 +17,21 @@ import com.example.java_ecommerce.repository.ProductImageRepository;
 import com.example.java_ecommerce.repository.ProductRepository;
 import com.example.java_ecommerce.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.java_ecommerce.exception.AccessDeniedException;
 
 @Service
 @Transactional
+@RequiredArgsConstructor 
 public class ProductService {
     private final ProductRepository productRepository;
     private final FileService fileService;
     private final ProductImageRepository productImageRepository;
     private final UserRepository userRepository;
 
-    public ProductService(ProductRepository productRepository, FileService fileService,
-            ProductImageRepository productImageRepository, UserRepository userRepository) {
-        this.productRepository = productRepository;
-        this.fileService = fileService;
-        this.productImageRepository = productImageRepository;
-        this.userRepository = userRepository;
-    }
 
     public ProductResDto createProduct(MultipartFile[] files, ProductReqDto productReqDto, String email) {
         Product product = changeProductEntityFromDto(productReqDto);

@@ -6,7 +6,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter 
+@Setter 
 public class OrderReqDto {
     @NotNull(message = "Order items are required")
     @Valid
@@ -28,41 +32,5 @@ public class OrderReqDto {
 
     public OrderReqDto() {}
 
-    public String getSuccessUrl() {
-        return successUrl;
-    }
-    public void setSuccessUrl(String successUrl) {
-        this.successUrl = successUrl;
-    }
-    public String getCancelUrl() {
-        return cancelUrl;
-    }
-    public void setCancelUrl(String cancelUrl) {
-        this.cancelUrl = cancelUrl;
-    }
 
-    public List<OrderItemDto> getOrderItemDtos() {
-        return orderItemDtos;
-    }
-    public void setOrderItemDtos(List<OrderItemDto> orderItemDtos) {
-        this.orderItemDtos = orderItemDtos;
-    }
-    public Double getTotalAmount() {
-        return totalAmount;
-    }
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-    public AddressDto getShippingAddress() {
-        return shippingAddress;
-    }
-    public void setShippingAddress(AddressDto shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
 }

@@ -1,6 +1,5 @@
 package com.example.java_ecommerce.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,9 +12,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity 
 @Table(name = "order_items")
+@Getter 
+@Setter 
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,57 +50,6 @@ public class OrderItem {
         this.quantity = quantity;
         this.price = price;
         this.size = size;
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public Order getOrder() {
-        return order;
-    }
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
-    public Integer getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-    public Double getPrice() {
-        return price;
-    }
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-    public String getSize() {
-        return size;
-    }
-    public void setSize(String size) {
-        this.size = size;
-    }
-    public String getStatus() {
-        return status;
-    }
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long get_id() {
-        return id;
-    }
-
-    public Long getItemId() {
-        return id;
     }
 
     public Long getProductId() {
@@ -132,13 +84,6 @@ public class OrderItem {
         return getClass().hashCode();
     }
 
-    public Product getProducts() {
-        return products;
-    }
-
-    public void setProducts(Product products) {
-        this.products = products;
-    }
 
     public static class Builder {
         private final OrderItem orderItem;

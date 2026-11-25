@@ -16,16 +16,14 @@ import com.example.java_ecommerce.entity.ProductImage;
 import com.example.java_ecommerce.exception.FileException;
 import com.example.java_ecommerce.repository.ProductImageRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor 
 public class FileService {
 
     private final Cloudinary cloudinary;
     private final ProductImageRepository productImageRepository;
-
-    public FileService(Cloudinary cloudinary, ProductImageRepository productImageRepository) {
-        this.cloudinary = cloudinary;
-        this.productImageRepository = productImageRepository;
-    }
 
     public List<ProductImage> uploadFiles(MultipartFile[] files, Product product) {
         if (files == null || files.length == 0) {

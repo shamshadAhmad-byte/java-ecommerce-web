@@ -23,18 +23,16 @@ import com.example.java_ecommerce.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/products")
+@RequiredArgsConstructor 
 public class ProductController {
 
     private final ProductService productService;
     private final ObjectMapper objectMapper;
 
-    public ProductController(ProductService productService, ObjectMapper objectMapper) {
-        this.productService = productService;
-        this.objectMapper = objectMapper;
-    }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductResDto> createProduct(

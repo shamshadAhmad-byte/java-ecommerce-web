@@ -1,5 +1,10 @@
 package com.example.java_ecommerce.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter 
+@Setter 
 public class ExceptionResDto {
     private boolean success = false;
     private String message;
@@ -8,24 +13,6 @@ public class ExceptionResDto {
     private String path;
     private String error;
     public ExceptionResDto(){};
-    public boolean isSuccess(){
-        return success;
-    }
-    public String getMessage(){
-        return message;
-    }
-    public Integer getStatusCode(){
-        return StatusCode;
-    }
-    public Long getTimestamp(){
-        return timestamp;
-    }
-    public String getPath(){
-        return path;
-    }
-    public String getError(){
-        return error;
-    }
     public static class Builder {
         private final ExceptionResDto exceptionResDto;
 
