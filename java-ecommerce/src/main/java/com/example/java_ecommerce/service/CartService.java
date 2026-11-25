@@ -15,21 +15,19 @@ import com.example.java_ecommerce.repository.CartRepository;
 import java.util.Objects;
 import com.example.java_ecommerce.repository.ProductRepository;
 import com.example.java_ecommerce.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service 
 @Transactional
+@RequiredArgsConstructor 
 public class CartService {
 
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
-
-    public CartService(CartRepository cartRepository, UserRepository userRepository, ProductRepository productRepository) {
-        this.cartRepository = cartRepository;
-        this.userRepository = userRepository;
-        this.productRepository = productRepository;
-    }
 
     public CartResDto createCart(CartReqDto cartReqDto, String email) {
         User user = userRepository.findByEmail(email);

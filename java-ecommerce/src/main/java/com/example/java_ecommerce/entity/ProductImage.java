@@ -10,9 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "product_images")
+@Getter
+@Setter
 public class ProductImage {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -28,27 +32,6 @@ public class ProductImage {
     public ProductImage(String imageUrl, String publicId, Product product){
         this.imageUrl=imageUrl;
         this.publicId=publicId;
-        this.product=product;
-    }
-    public Long getId(){
-        return id;
-    }
-    public String getImageUrl(){
-        return imageUrl;
-    }
-    public void setImageUrl(String imageUrl){
-        this.imageUrl=imageUrl;
-    }
-    public String getPublicId(){
-        return publicId;
-    }
-    public void setPublicId(String publicId){
-        this.publicId=publicId;
-    }
-    public Product getProduct(){
-        return product;
-    }
-    public void setProduct(Product product){
         this.product=product;
     }
 }

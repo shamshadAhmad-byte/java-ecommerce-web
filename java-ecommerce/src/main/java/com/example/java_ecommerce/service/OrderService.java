@@ -32,8 +32,11 @@ import com.example.java_ecommerce.service.Payment.StripePaymentService;
 import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor 
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -42,20 +45,6 @@ public class OrderService {
     private final PaymentFactoryService paymentFactory;
     private final StripePaymentService stripePaymentService;
     private final OrderItemRepository orderItemRepository;
-
-    public OrderService(OrderRepository orderRepository,
-            ProductRepository productRepository,
-            UserRepository userRepository,
-            PaymentFactoryService paymentFactory,
-            StripePaymentService stripePaymentService,
-            OrderItemRepository orderItemRepository) {
-        this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
-        this.paymentFactory = paymentFactory;
-        this.stripePaymentService = stripePaymentService;
-        this.orderItemRepository = orderItemRepository;
-    }
 
     public OrderResDto createOrder(OrderReqDto orderReqDto, String userEmail) throws UserNotAuthorizeException {
         if (userEmail == null || userEmail.isBlank()) {

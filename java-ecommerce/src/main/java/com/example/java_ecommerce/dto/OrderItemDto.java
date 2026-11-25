@@ -1,6 +1,10 @@
 package com.example.java_ecommerce.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter 
+@Setter 
 public class OrderItemDto {
 
     private Long productId;
@@ -8,22 +12,4 @@ public class OrderItemDto {
     private String size;
 
     public OrderItemDto() {}
-    public Long getProductId() {
-        return productId;
-    }
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-    public int getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-    public String getSize() {
-        return size;
-    }
-    public void setSize(String size) {
-        this.size = size;
-    }
 }

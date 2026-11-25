@@ -16,17 +16,15 @@ import com.example.java_ecommerce.service.JwtService;
 import com.example.java_ecommerce.service.UserService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 
 @RestController 
 @RequestMapping("/api/users")
+@RequiredArgsConstructor 
 public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
-    public UserController(UserService userService, JwtService jwtService){
-        this.userService = userService;
-        this.jwtService = jwtService;
-    }
 
     @PostMapping("/signin")
     public ResponseEntity<UserResDto> userSignIn(@Valid @RequestBody UserReqDto userReqDto){

@@ -17,16 +17,16 @@ import com.example.java_ecommerce.dto.CartReqDto;
 import com.example.java_ecommerce.dto.CartResDto;
 import com.example.java_ecommerce.service.CartService;
 
+import lombok.RequiredArgsConstructor;
+
 
 
 
 @RestController 
 @RequestMapping ("/api/cart")
+@RequiredArgsConstructor 
 public class CartController {
     private final CartService cartService;
-    public CartController(CartService cartService){
-        this.cartService = cartService;
-    }
 
     @PostMapping
     public ResponseEntity<CartResDto> createCart(@RequestBody CartReqDto cartReqDto, Authentication authentication) {

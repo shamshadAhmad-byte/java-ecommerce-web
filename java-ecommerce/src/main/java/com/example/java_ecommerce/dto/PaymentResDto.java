@@ -1,5 +1,10 @@
 package com.example.java_ecommerce.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter 
+@Setter 
 public class PaymentResDto {
     private boolean success;
     private String paymentMethod;
@@ -8,44 +13,10 @@ public class PaymentResDto {
     private String sessionId;
     private String message;
 
+    public PaymentResDto() {}
     public boolean isSuccess() {
         return success;
     }
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-    public String getSessionUrl() {
-        return sessionUrl;
-    }
-    public void setSessionUrl(String sessionUrl) {
-        this.sessionUrl = sessionUrl;
-    }
-    public String getSessionId() {
-        return sessionId;
-    }
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-    public String getMessage() {
-        return message;
-    }
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public PaymentResDto() {}
     public static class Builder{
         private final PaymentResDto paymentResDto;
         public Builder(){

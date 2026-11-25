@@ -1,5 +1,10 @@
 package com.example.java_ecommerce.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter 
+@Setter 
 public class CartResDto {
     private Long id;
     private Long quantity;
@@ -9,26 +14,6 @@ public class CartResDto {
     private Long productId;
 
     public CartResDto() {
-    }
-    public Long getId() {
-        return id;
-    }
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-    public String getName() {
-        return name;
-    }
-    public Long getProductId() {
-        return productId;
     }
     public static class Builder {
 

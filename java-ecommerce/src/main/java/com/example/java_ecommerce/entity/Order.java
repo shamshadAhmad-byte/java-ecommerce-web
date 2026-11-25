@@ -14,9 +14,13 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "orders")
+@Getter 
+@Setter 
 public class Order {
 
     @Id
@@ -58,51 +62,11 @@ public class Order {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
-
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
-    }
-
-    public Address getShippingAddress() {
-        return shippingAddress;
-    }
-
     public void setShippingAddress(Address shippingAddress) {
         this.shippingAddress = shippingAddress;
         if (shippingAddress != null) {
             shippingAddress.setOrder(this);
         }
-    }
-
-    public List<OrderItem> getItems() {
-        return items;
     }
 
     public void setItems(List<OrderItem> items) {
@@ -126,86 +90,6 @@ public class Order {
             items.remove(item);
             item.setOrder(null);
         }
-    }
-
-    public Double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public String getStripeSessionId() {
-        return stripeSessionId;
-    }
-
-    public void setStripeSessionId(String stripeSessionId) {
-        this.stripeSessionId = stripeSessionId;
-    }
-
-    public String getSuccessUrl() {
-        return successUrl;
-    }
-
-    public void setSuccessUrl(String successUrl) {
-        this.successUrl = successUrl;
-    }
-
-    public String getCancelUrl() {
-        return cancelUrl;
-    }
-
-    public void setCancelUrl(String cancelUrl) {
-        this.cancelUrl = cancelUrl;
-    }
-
-    public String getItemsJson() {
-        return itemsJson;
-    }
-
-    public void setItemsJson(String itemsJson) {
-        this.itemsJson = itemsJson;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public static class Builder {
