@@ -43,7 +43,7 @@ public class Order {
     private String successUrl;
     @jakarta.persistence.Transient
     private String cancelUrl;
-    @jakarta.persistence.Column(columnDefinition = "LONGTEXT")
+    @jakarta.persistence.Column(columnDefinition = "TEXT")
     private String itemsJson;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
